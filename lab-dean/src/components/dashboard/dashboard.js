@@ -1,26 +1,32 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {categoryCreate} from '../../actions/category-actions';
-import CategoryForm from '../category/category-form/category-form';
+import CategoryItem from '../category/category-item/category-item';
+import CategoryForm from '../../components/category/category-form/category-form';
+import category from '../../reducers/category';
+import index from '../category/category-item/category-item';
 
 class Dashboard extends React.Component {
   render() {
+    let totalSpend = this.props.categories.reduce((a, b) => a + parseInt(b.value), 0);
+
     return (
       <section>
-        <h1>Welcome to my Kanban Board</h1>
-
+        <h1>Track Your Spending Problems!</h1>
+        <h3 className="total">Total Spend: ${totalSpend}</h3>
         <CategoryForm
-          buttonText='create'
+          buttonText='Create'
           onComplete={this.props.dashboardCategoryCreate}/>
 
         {this.props.categories ?
-          this.props.categories.map(cat =>
-            <div key={cat._id}>
-              <h3>{cat.title}</h3>
+          this.props.categories.map(category => 
+            <div key={category._id}>
+              <CategoryItem category={category}/>
             </div>)
           :
           undefined
         }
+
       </section>
     );
   }

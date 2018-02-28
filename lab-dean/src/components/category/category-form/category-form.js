@@ -7,6 +7,7 @@ class CategoryForm extends React.Component {
       ? this.props.category
       : {
         title: '',
+        value: 0,
       };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,7 +20,11 @@ class CategoryForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onComplete(this.state);
+    !this.state.value || this.state.title ? alert('Please fill out the fields.') : this.props.onComplete(this.state);
+    this.setState({
+      title: '',
+      value: 0,
+    });
   }
 
   render() {
@@ -28,7 +33,15 @@ class CategoryForm extends React.Component {
         <input
           type="text"
           name="title"
+          placeholder="Title"
           value={this.state.title}
+          onChange={this.handleChange}/>
+
+        <input
+          type="text"
+          name="title"
+          placeholder="Amount"
+          value={this.state.value}
           onChange={this.handleChange}/>
 
         <button type="submit">{this.props.buttonText}</button>
